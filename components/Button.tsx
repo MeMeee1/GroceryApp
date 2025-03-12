@@ -1,13 +1,25 @@
 import { forwardRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View, Dimensions } from 'react-native';
+import colors from '~/components/Colors';
+import fonts from './Fonts';
 
 type ButtonProps = {
+  hasIcon?: boolean;
+  icon?: JSX.Element;
   title?: string;
 } & TouchableOpacityProps;
 
-export const Button = forwardRef<View, ButtonProps>(({ title, ...touchableProps }, ref) => {
+export const Button = forwardRef<View, ButtonProps>(({ hasIcon = false, icon, title, ...touchableProps }, ref) => {
+  const screenHeight = Dimensions.get('window').height;
+  const padding = screenHeight * 0.02; // 2% of screen height
+
   return (
-    <TouchableOpacity ref={ref} {...touchableProps} style={[styles.button, touchableProps.style]}>
+    <TouchableOpacity 
+      ref={ref} 
+      {...touchableProps} 
+      style={[styles.button, { padding }, touchableProps.style]}
+    >
+      {hasIcon && icon && <View style={styles.iconContainer}>{icon}</View>}
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
@@ -16,24 +28,25 @@ export const Button = forwardRef<View, ButtonProps>(({ title, ...touchableProps 
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    backgroundColor: '#6366F1',
     borderRadius: 24,
     elevation: 5,
-    flexDirection: 'row',
+    flexDirection: 'row',  // Allow icon + text layout
     justifyContent: 'center',
-    padding: 16,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: {
-      height: 2,
+      height: 50,
       width: 0,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
+  iconContainer: {
+    marginRight: 20, 
+  },
   buttonText: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: fonts.regular,
     textAlign: 'center',
   },
 });
