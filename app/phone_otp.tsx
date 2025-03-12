@@ -1,26 +1,30 @@
-import { View, Text, TextInput,ImageBackground, Image, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
-import { useNavigation } from "expo-router";
-import { Stack,Link, useLocalSearchParams } from 'expo-router';
+import {
+  TouchableWithoutFeedback,
+  Keyboard,
+  View,
+  Text,
+  TextInput,
+  Image,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import { useRouter } from "expo-router";
+import colors from '~/components/Colors';
+import fonts from '~/components/Fonts';
 import { Button } from "~/components/Button";
-import { AntDesign } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
+import BackgroundImage from '~/components/BackgroundImage';
+import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 
 export default function OTPVerification() {
-  const navigation = useNavigation();
-  const [fontsLoaded] = useFonts({
-    "Gilroy-Light": require("~/assets/fonts/Gilroy-Light.otf"),
-    "Gilroy-ExtraBold": require("~/assets/fonts/Gilroy-ExtraBold.otf"),
-  });
-  if (!fontsLoaded) {
-    return null;  // You can replace this with a loading component
-  }
+  const router = useRouter();
   return (
-    <>
-    <Stack.Screen options={{ title: '' }} />
-    <ImageBackground style={styles.container} source={require("~/assets/bg_img.png")}> 
+   
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <BackgroundImage GoBack={() => router.back()} >
       {/* Back Button */}
-      
+      {/* <View style={styles.container}> */}
 
       {/* Title */}
       <Text style={styles.title}>Enter your 4-digit code</Text>
@@ -34,22 +38,25 @@ export default function OTPVerification() {
           style={styles.input}
           placeholder="- - - -"
           keyboardType="phone-pad"
-          maxLength={10}
+          maxLength={4}
         />
       </View>
       <Text style={styles.resendTxt}>Resend Code</Text>
-      <Link href='/location' asChild>
-      <Button style={styles.fab} title=">" onPress={() => {}} />
-      </Link>
-    </ImageBackground>
-    </>
+      
+       <TouchableOpacity style={styles.fab} onPress={()=>router.push("/location")}>
+          <Ionicons name="chevron-forward-outline" size={width * 0.08} color={colors.white} />
+        </TouchableOpacity>
+        {/* </View> */}
+    </BackgroundImage>
+    </TouchableWithoutFeedback>
+  
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+
     paddingHorizontal: width * 0.05,
     paddingTop: height * 0.05,
   },
@@ -60,21 +67,21 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontSize: width * 0.06,
-    fontFamily: 'Gilroy-Bold',
+    fontSize: width * 0.065,
+    fontFamily: fonts.bold,
     marginTop: height * 0.1,
     marginBottom: height * 0.02,
   },
   subtitle: {
     fontSize: width * 0.04,
-    color: "gray",
-    fontFamily: 'Gilroy-Light',
+    color: colors.gray,
+    fontFamily: fonts.light,
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: colors.lightGray,
     paddingBottom: 5,
     marginTop: height * 0.01,
   },
@@ -93,9 +100,9 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    bottom: height * 0.1,
+    bottom: height * 0.03,
     right: width * 0.1,
-    backgroundColor: "#53B175",
+    backgroundColor: colors.green,
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -104,12 +111,12 @@ const styles = StyleSheet.create({
   },
   resendTxt: {
     position: "absolute",
-    bottom: height * 0.12,
+    bottom: height * 0.05,
     right: width * 0.1,
     backgroundColor: "transparent",
     left:20,
     fontSize:16,
-    color:"#53B175",
-    fontFamily: 'Gilroy-Light',
+    color:colors.seaGreen,
+    fontFamily:fonts.medium,
   },
 });

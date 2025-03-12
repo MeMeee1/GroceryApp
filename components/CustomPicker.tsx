@@ -9,6 +9,8 @@ import {
 } from "react-native";  
 import { Ionicons } from "@expo/vector-icons"; // For dropdown arrow  
 import { useFonts } from "expo-font";
+import fonts from "./Fonts";
+import colors from "./Colors";
 interface CustomPickerProps {  
   value: string;  
   onValueChange: (value: string) => void;  
@@ -73,35 +75,39 @@ const styles = StyleSheet.create({
     borderTopWidth: 0, // This removes the top border line  
     borderRightWidth:0,
     borderLeftWidth:0,
-    borderBottomColor: "#E0E0E0",  
+    borderBottomColor: colors.lightGray,  
   },  
   text: {  
     fontSize: 16,  
     color: "#333",  
+    fontFamily:fonts.regular,
   },  
   overlay: {  
     flex: 1,  
     justifyContent: "center",  
     alignItems: "center",  
-    backgroundColor: "rgba(0,0,0,0.3)",  
+    backgroundColor: colors.dark_transparent,  
+  
   },  
   dropdown: {  
     width: "80%",  
-    backgroundColor: "white",  
+    backgroundColor: colors.white,  
     borderRadius: 10,  
     paddingVertical: 10,  
-    shadowColor: "#000",  
+    shadowColor: colors.black,  
     shadowOpacity: 0.1,  
     shadowRadius: 4,  
-    elevation: 5,  
+    elevation: 5,
   },  
   option: {  
     paddingVertical: 12,  
     paddingHorizontal: 15,  
+ 
   },  
   optionText: {  
     fontSize: 16,  
-    color: "#333",   
+    color: colors.black,   
+    fontFamily:fonts.regular,
   },  
 });  
 

@@ -1,24 +1,16 @@
-import { View, Text, Image, TextInput, StyleSheet, Dimensions } from "react-native";
+import { View, Text, Image, TextInput, StyleSheet, Dimensions,SafeAreaView } from "react-native";
 import { Stack, Link, useNavigation } from 'expo-router';
-
+import colors from '~/components/Colors';
+import fonts from '~/components/Fonts';
 import { useEffect } from 'react';
 import { Button } from '~/components/Button';
-import { useFonts } from "expo-font";
+import { useRouter } from 'expo-router';
+import { Ionicons } from "@expo/vector-icons";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 const { width, height } = Dimensions.get("window");
 
 export default function SignInScreen() {
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
-  const [fontsLoaded] = useFonts({
-    "Gilroy-Light": require("~/assets/fonts/Gilroy-Light.otf"),
-    "Gilroy-ExtraBold": require("~/assets/fonts/Gilroy-ExtraBold.otf"),
-  });
-  if (!fontsLoaded) {
-    return null;  // You can replace this with a loading component
-  }
+  const router =useRouter();
   return (
     <View style={styles.container}>
       <Image source={require("~/assets/grocery_bag.png")} style={styles.image} />
@@ -30,15 +22,13 @@ export default function SignInScreen() {
           <Image source={require("~/assets/flag_icon.png")} style={styles.flag} />
           <Text style={styles.countryCode}>+880</Text>
           <TextInput style={styles.input} placeholder="Enter your phone number" keyboardType="phone-pad" />
-        </View>
+        </View> 
         
         <Text style={styles.orText}>Or connect with social media</Text>
-        <Link href='/phone_verification' asChild>
-            <Button title="Continue with Google" style={styles.googleButton} />
-        </Link>
-        <Link href='/phone_verification' asChild>
-            <Button title="Continue with Facebook" style={styles.facebookButton} />
-        </Link>
+        <Button hasIcon={true} icon={<FontAwesome name="google" size={24} color={colors.white} />} title="Continue with Google" style={styles.googleButton} onPress={()=>router.push('/phone_verification')} />
+       
+        <Button hasIcon={true} icon={<FontAwesome name="facebook-f" size={24} color={colors.white} />}title="Continue with Facebook" style={styles.facebookButton} onPress={()=>router.push('/phone_verification')}/>
+        
       </View>
     </View>
   );
@@ -47,7 +37,7 @@ export default function SignInScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
   },
   image: {
     width: "100%",
@@ -60,15 +50,15 @@ const styles = StyleSheet.create({
     marginTop:"17%"
   },
   title: {
-    fontSize: width * 0.06,
-    fontFamily: 'Gilroy-Bold',
+    fontSize: width * 0.065,
+    fontFamily: fonts.bold,
     marginBottom: height * 0.05, 
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: colors.lightGray,
     paddingBottom: 5,
   },
   flag: {
@@ -83,19 +73,20 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    fontFamily: 'Gilroy-Bold',
+    fontFamily: fonts.regular,
   },
   orText: {
     textAlign: "center",
-    color: "gray",
+    color: colors.gray,
     marginVertical: height * 0.03,
-    fontFamily: 'Gilroy-Light',
+    fontFamily: fonts.regular,
   },
   googleButton: {
-    backgroundColor: "#4C6EF5",
+    backgroundColor: colors.custom_light_blue,
     marginBottom: height * 0.015,
+   
   },
   facebookButton: {
-    backgroundColor: "#3B5998",
+    backgroundColor: colors.custom_dark_blue,
   },
 });

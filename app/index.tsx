@@ -1,47 +1,34 @@
 import { Stack, Link, useNavigation } from 'expo-router';
 import { Text, ImageBackground, StyleSheet, Dimensions, View, Image } from 'react-native';
 import { Button } from '~/components/Button';
-import { useEffect } from 'react';
-import { useFonts } from "expo-font";
+import colors from '~/components/Colors';
+import fonts from '~/components/Fonts';
+import { useRouter } from 'expo-router';
 const { width, height } = Dimensions.get('window');
 
 export default function Home() {
-  const navigation = useNavigation();
-  const [fontsLoaded] = useFonts({
-    "Gilroy-Light": require("~/assets/fonts/Gilroy-Light.otf"),
-    "Gilroy-ExtraBold": require("~/assets/fonts/Gilroy-ExtraBold.otf"),
-  });
-  useEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
-
+  const router = useRouter();
   return (
-    <>
-      <Stack.Screen options={{ title: 'Home' }} />
-      <ImageBackground source={require("~/assets/onboarding_screen.png")} style={styles.image}>
-        <View style={styles.row_container}>
-          <Image source={require('~/assets/carrot_icon.png')} style={styles.icon} />
-          <Text style={styles.main_text}>Welcome{"\n"} to our store</Text>
-          <Text style={styles.sub_text}>Get your groceries in as fast as one hour</Text>
-          <Link href='/sign_in' asChild>
-            <Button title='Get Started' style={styles.button} />
-          </Link>
-        </View>
-      </ImageBackground>
-    </>
+    <ImageBackground source={require("~/assets/onboarding_screen.png")} style={styles.image}>
+      <View style={styles.row_container}>
+        <Image source={require('~/assets/carrot_icon.png')} style={styles.icon} />
+        <Text style={styles.main_text}>Welcome{"\n"} to our store</Text>
+        <Text style={styles.sub_text}>Get your groceries in as fast as one hour</Text>
+        <Button title='Get Started' style={styles.button} onPress={()=>router.push("/sign_in")}/>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   image: {
-    flex: 1,
+    flexGrow:1,
     justifyContent: 'flex-end',
     width: '100%', 
     height: '100%',
   },
   row_container: {
     alignItems: 'center',
-   
   },
   icon: {
     width: width * 0.1,
@@ -49,28 +36,27 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.02,
   },
   main_text: {
-    color: '#fff',
+    color: colors.white,  
     textAlign: 'center',
-    fontSize: width * 0.13,
-    fontFamily: 'Gilroy-Bold',
+    fontSize: width * 0.15,
+    fontFamily: fonts.bold, 
     marginBottom: height * 0.01,
   },
   sub_text: {
-    color: '#fff',
+    color: colors.white,
     fontSize: width * 0.045,
     textAlign: 'center',
     marginBottom: height * 0.02,
-    ''
-    fontFamily: 'Gilroy-Light',
+    fontFamily: fonts.medium, 
   },
   button: {
-    backgroundColor: '#53B175',
+    
+    backgroundColor: colors.green,  
     width: "80%",
     height: "17%",
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    marginTop:"8%",
-  
+    marginTop: "8%",
   },
 });
